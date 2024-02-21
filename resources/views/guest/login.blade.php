@@ -56,15 +56,12 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!-- Include SweetAlert script -->
         <script>
-            // Check if there's a message with value 'successreg'
             let message = "{{ session('message') }}";
             if (message === "successreg") {
-                // Fire SweetAlert
                 Swal.fire({
-                    title: "Good job!",
-                    text: "You clicked the button!",
+                    title: "Berhasil Register!",
+                    text: "Data sudah masuk!",
                     icon: "success",
                 });
             }

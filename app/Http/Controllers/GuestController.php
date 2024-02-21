@@ -45,10 +45,18 @@ class GuestController extends Controller
 
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
+        $request->session()->put('email', $credentials['email']);
         
         return redirect()->intended('home');
     }
 
     return redirect()->route('login')->with('message', 'faillogin');
 }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
+    }
 }
