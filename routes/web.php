@@ -30,6 +30,7 @@ Route::group(['middleware'=>'guest'], function() {
 Route::group(['middleware' => 'auth'], function() {
     //HOME AND LOG APPROVAL
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
+    Route::get('/home/filter', [DashboardController::class, 'filter'])->name('filter.home');
     //LOGOUT
     Route::get('/logout', [GuestController::class, 'logout']);
 

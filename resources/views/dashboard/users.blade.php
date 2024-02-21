@@ -30,6 +30,9 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link">{{ $name.' - '.$role }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
                         @if($role === 'man-op' || $role === 'man-uang' || $role === 'staf')

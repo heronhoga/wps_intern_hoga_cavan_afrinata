@@ -3,24 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Log;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+//MONITORING MANAGEMENT SYSTEM
     public function index()
 {
     $email = session('email');
     $userRole = User::where('email', $email)->value('role');
-    return view('dashboard.index', ['role' => $userRole]);
+    $userName = User::where('email', $email)->value('name');
+    $userId = User::where('email', $email)->value('id');
+
+    //QUERY LOGS BASED ON SUPERVISOR 
+    $logs = Log::where('supervisor_id', $userId)->get();
+    return view('dashboard.index', ['role' => $userRole,
+        'name' => $userName,
+        'logs' => $logs]);
 }
 
+public function filter(Request $request) {
+    $email = session('email');
+    $userRole = User::where('email', $email)->value('role');
+    $userName = User::where('email', $email)->value('name');
+    $userId = User::where('email', $email)->value('id');
+    $selectedDate = $request->input('selected_date', date('Y-m-d'));
+    $logs = Log::where('supervisor_id', $userId)->whereDate('created_at', $selectedDate)->get();
+    return view('dashboard.index', [
+        'role' => $userRole,
+        'name' => $userName,
+        'logs' => $logs
+    ]);
+}
+
+//USER MANAGEMENT SYSTEM
 public function users() {
     $email = session('email');
     $userRole = User::where('email', $email)->value('role');
+    $userName = User::where('email', $email)->value('name');
     $users = User::leftJoin('users as supervisors', 'users.supervisor', '=', 'supervisors.id')
                 ->select('users.*', 'supervisors.name as supervisor_name')
                 ->get();
-    return view('dashboard.users', ['users' => $users] , ['role' => $userRole]);
+    return view('dashboard.users', ['users' => $users ,'role' => $userRole, 'name' => $userName]);
 }
 
 

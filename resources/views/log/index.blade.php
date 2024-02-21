@@ -66,6 +66,8 @@
         </nav>
         <!--NAVBAR HOME-->
         <br />
+
+        @if($role === 'man-op' || $role === 'man-uang' || $role === 'staf')
         <!--CREATE LOG-->
         <div class="d-flex justify-content-center">
             <a href="{{ route('log.create') }}" class="btn btn-success"
@@ -167,6 +169,8 @@
             </table>
         </div>
         <!--TABLE-->
+
+        @endif
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {

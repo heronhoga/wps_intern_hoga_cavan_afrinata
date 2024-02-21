@@ -48,23 +48,25 @@ class LogController extends Controller
     'description' => 'required|string',
     'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
     ]);
-    
+        $user = User::where('email', session('email'))->first();
         $newData = new Log();
         $newData->description = $validatedData['description'];
         $newData->status = 'pending';
+        $newData->user_id = $user->id;
+        $newData->supervisor_id = $user->supervisor;
         $newData->save();
     
         if ($request->hasFile('photo')) {
-    $photoPath = $request->file('photo')->store('public/logphotos');
-    
-    $newData->photourl = str_replace('public/', '', $photoPath);
+                $photoPath = $request->file('photo')->store('public/logphotos');
+                
+                $newData->photourl = str_replace('public/', '', $photoPath);
 
-    $user = User::where('email', session('email'))->first();
+                
 
-    $newData->user_id = $user->id;
-    $newData->supervisor_id = $user->supervisor;
+                $newData->user_id = $user->id;
+                $newData->supervisor_id = $user->supervisor;
 
-    $newData->save();
+                $newData->save();
     }
     
         return redirect()->route('log.index');
