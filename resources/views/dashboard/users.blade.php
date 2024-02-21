@@ -10,6 +10,18 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
         />
+
+        <style>
+            .table-responsive {
+                margin: 0 auto;
+                max-width: 80%;
+            }
+
+            .table {
+                width: 100%;
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <!--NAVBAR HOME-->
@@ -18,14 +30,14 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/home">Home</a>
+                            <a class="nav-link" href="/home">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/mylog">My Log</a>
                         </li>
                         @if($role === 'direktur')
                         <li class="nav-item">
-                            <a class="nav-link" href="/users"
+                            <a class="nav-link active" href="/users"
                                 >User Management</a
                             >
                         </li>
@@ -41,7 +53,52 @@
         </nav>
 
         <!--NAVBAR HOME-->
+        <div class="d-flex justify-content-center my-4">
+            <button class="btn btn-success" type="button">Create User</button>
+        </div>
+        <!--TABLE-->
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Supervisor</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($users as $user)
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
+                        <td>{{ $user->supervisor }}</td>
+                        <td>
+                            <a
+                                href="{{ route('users.edit', $user->id) }}"
+                                class="btn btn-primary"
+                                >Edit</a
+                            >
+                            <form
+                                action="{{ route('users.destroy', $user->id) }}"
+                                method="POST"
+                                style="display: inline"
+                            >
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
+        <!--TABLE-->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

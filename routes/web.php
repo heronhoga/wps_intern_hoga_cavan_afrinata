@@ -30,4 +30,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     //LOGOUT
     Route::get('/logout', [GuestController::class, 'logout']);
+    //USERS
+    Route::get('/users', [DashboardController::class, 'users']);
+
+    //USER EDIT
+    Route::get('/users/{id}/edit', [DashboardController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [DashboardController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [DashboardController::class, 'destroy'])->name('users.destroy');
 });
