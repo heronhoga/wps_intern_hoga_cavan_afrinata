@@ -16,7 +16,9 @@ class LogController extends Controller
         $email = session('email');
         $userRole = User::where('email', $email)->value('role');
         $userName = User::where('email', $email)->value('name');
-        $logs = Log::all();
+        $userId = User::where('email', $email)->value('id');
+
+        $logs = Log::where('user_id', $userId)->get();
         return view('log.index', [
             'logs' => $logs,
             'role' => $userRole,

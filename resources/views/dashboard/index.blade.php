@@ -120,6 +120,8 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Role</th>
                         <th scope="col">Description</th>
                         <th scope="col">View Image</th>
                         <th scope="col">Status</th>
@@ -130,6 +132,8 @@
                 <tbody>
                     @foreach($logs as $log)
                     <tr>
+                        <td>{{ $log->name }}</td>
+                        <td>{{ $log->role }}</td>
                         <td>{{ $log->description }}</td>
                         <td>
                             @if ($log->photourl)
@@ -148,23 +152,23 @@
                         </td>
                         <td>
                             <form
-                                action="{{ route('log.destroy', $log->id) }}"
+                                action="{{ route('log.approve', $log->log_id) }}"
                                 method="POST"
                                 style="display: inline"
                             >
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-danger">
-                                    Delete
+                                @csrf @method('put')
+                                <button type="submit" class="btn btn-success">
+                                    Terima
                                 </button>
                             </form>
                             <form
-                                action="{{ route('log.destroy', $log->id) }}"
+                                action="{{ route('log.disapprove', $log->log_id) }}"
                                 method="POST"
                                 style="display: inline"
                             >
-                                @csrf @method('DELETE')
+                                @csrf @method('PUT')
                                 <button type="submit" class="btn btn-danger">
-                                    Delete
+                                    Tolak
                                 </button>
                             </form>
                         </td>

@@ -17,7 +17,10 @@ class DashboardController extends Controller
     $userId = User::where('email', $email)->value('id');
 
     //QUERY LOGS BASED ON SUPERVISOR 
-    $logs = Log::where('supervisor_id', $userId)->get();
+    $logs = Log::join('users', 'logs.user_id', '=', 'users.id')
+    ->where('logs.supervisor_id', $userId)
+    ->selectRaw('logs.id as log_id, logs.description, logs.photourl, logs.status, logs.created_at, users.name, users.role')
+    ->get();
     return view('dashboard.index', ['role' => $userRole,
         'name' => $userName,
         'logs' => $logs]);
@@ -29,12 +32,30 @@ public function filter(Request $request) {
     $userName = User::where('email', $email)->value('name');
     $userId = User::where('email', $email)->value('id');
     $selectedDate = $request->input('selected_date', date('Y-m-d'));
-    $logs = Log::where('supervisor_id', $userId)->whereDate('created_at', $selectedDate)->get();
+    $logs = Log::join('users', 'logs.user_id', '=', 'users.id')
+    ->where('logs.supervisor_id', $userId)
+    ->selectRaw('logs.id as log_id, logs.description, logs.photourl, logs.status, logs.created_at, users.name, users.role')
+    ->whereDate('logs.created_at', $selectedDate)
+    ->get();
     return view('dashboard.index', [
         'role' => $userRole,
         'name' => $userName,
         'logs' => $logs
     ]);
+}
+
+public function approve($id) {
+    $log = Log::find($id);
+    $log->status = 'disetujui';
+    $log->save();
+    return redirect()->route('home')->with('success', 'Log approved successfully.');
+}
+
+public function disapprove($id) {
+    $log = Log::find($id);
+    $log->status = 'ditolak';
+    $log->save();
+    return redirect()->route('home')->with('success', 'Log disapproved successfully.');
 }
 
 //USER MANAGEMENT SYSTEM

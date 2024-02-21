@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function() {
     //HOME AND LOG APPROVAL
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::get('/home/filter', [DashboardController::class, 'filter'])->name('filter.home');
+    Route::put('/home/approve/{id}', [DashboardController::class, 'approve'])->name('log.approve');
+    Route::put('/home/disapprove/{id}', [DashboardController::class, 'disapprove'])->name('log.disapprove');
     //LOGOUT
     Route::get('/logout', [GuestController::class, 'logout']);
 
