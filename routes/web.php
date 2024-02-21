@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,4 +40,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('/users/{id}', [DashboardController::class, 'destroy'])->name('users.destroy');
     // Route::get('/users/create', [DashboardController::class, 'create'])->name('users.create');
     // Route::post('/users', [DashboardController::class, 'store'])->name('users.store');
+
+    //SELF-LOG MANAGEMENT
+    Route::get('/mylog', [LogController::class, 'index'])->name('log.index');
+    Route::get('/mylog/create', [LogController::class, 'create'])->name('log.create');
+    Route::post('/mylog', [LogController::class, 'store'])->name('log.store');
+    Route::delete('/mylog/{id}', [LogController::class, 'destroy'])->name('log.destroy');
+    Route::get('/mylog/{id}/edit', [LogController::class, 'edit'])->name('log.edit');
+    Route::put('/mylog/{id}', [LogController::class, 'update'])->name('log.update');
 });

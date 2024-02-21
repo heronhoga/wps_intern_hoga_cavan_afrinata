@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>X Office - Users</title>
+        <title>X Office - My Log</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,14 +32,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
-                        @if($role === 'man-op' || $role === 'man-uang' || $role === 'staf')
+                        @if($role === 'man-op' || $role === 'man-uang' || $role
+                        === 'staf')
                         <li class="nav-item">
-                            <a class="nav-link" href="/mylog">My Log</a>
+                            <a class="nav-link active" href="/mylog">My Log</a>
                         </li>
-                        @endif
-                        @if($role === 'direktur')
+                        @endif @if($role === 'direktur')
                         <li class="nav-item">
-                            <a class="nav-link active" href="/users"
+                            <a class="nav-link" href="/users"
                                 >User Management</a
                             >
                         </li>
@@ -53,35 +53,55 @@
                 </div>
             </div>
         </nav>
-
         <!--NAVBAR HOME-->
+        <br />
+        <!--CREATE LOG-->
+        <div class="d-flex justify-content-center">
+            <a href="{{ route('log.create') }}" class="btn btn-success"
+                >Create Log</a
+            >
+        </div>
+        <!--CREATE LOG-->
+
         <!--TABLE-->
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Supervisor</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">View Image</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user)
+                    @foreach($logs as $log)
                     <tr>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>{{ $user->supervisor_name }}</td>
+                        <td>{{ $log->description }}</td>
+                        <td>
+                            @if ($log->photourl)
+                            <a
+                                href="{{ asset('storage/' . $log->photourl) }}"
+                                target="_blank"
+                                class="btn btn-primary"
+                                >View Image</a
+                            >
+                            @else No Image @endif
+                        </td>
+
+                        <td>{{ $log->status }}</td>
+                        <td>
+                            {{ (new DateTime($log->created_at))->setTimezone(new DateTimeZone('Asia/Bangkok'))->format('Y-m-d H:i:s') }}
+                        </td>
                         <td>
                             <a
-                                href="{{ route('users.edit', $user->id) }}"
+                                href="{{ route('log.edit', $log->id) }}"
                                 class="btn btn-primary"
                                 >Edit</a
                             >
                             <form
-                                action="{{ route('users.destroy', $user->id) }}"
+                                action="{{ route('log.destroy', $log->id) }}"
                                 method="POST"
                                 style="display: inline"
                             >
@@ -97,7 +117,7 @@
             </table>
         </div>
         <!--TABLE-->
-        
+
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

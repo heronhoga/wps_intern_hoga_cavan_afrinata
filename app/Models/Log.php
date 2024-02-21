@@ -13,6 +13,7 @@ class Log extends Model
     protected $fillable = [
         'description',
         'photourl',
+        'status',
         'user_id',
         'supervisor_id',
         'supervisor',
