@@ -15,9 +15,28 @@ class LogController extends Controller
     public function index() {
         $email = session('email');
         $userRole = User::where('email', $email)->value('role');
+        $userName = User::where('email', $email)->value('name');
         $logs = Log::all();
-        return view('log.index', ['logs' => $logs], ['role' => $userRole]);
+        return view('log.index', [
+            'logs' => $logs,
+            'role' => $userRole,
+            'name' => $userName
+        ]);
     }
+
+    public function filter(Request $request)
+{
+    $email = session('email');
+    $userRole = User::where('email', $email)->value('role');
+    $userName = User::where('email', $email)->value('name');
+    $selectedDate = $request->input('selected_date', date('Y-m-d'));
+    $logs = Log::whereDate('created_at', $selectedDate)->get();
+    return view('log.index', [
+        'logs' => $logs,
+        'role' => $userRole,
+        'name' => $userName
+    ]);
+}
 
     //CREATE
     public function create() {

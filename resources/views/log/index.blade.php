@@ -11,6 +11,14 @@
             crossorigin="anonymous"
         />
 
+        <!--DATEPICKER-->
+        <link
+            href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <!--DATEPICKER-->
+
         <style>
             .table-responsive {
                 margin: 0 auto;
@@ -29,6 +37,9 @@
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link">{{ $name.' - '.$role }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
@@ -62,6 +73,45 @@
             >
         </div>
         <!--CREATE LOG-->
+
+        <!--DATEPICKER AND RESET FORM-->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form
+                        id="filterForm"
+                        action="{{ route('filter.logs') }}"
+                        method="GET"
+                        class="mt-3 d-inline-block"
+                    >
+                        @csrf
+                        <div class="input-group" style="max-width: 300px">
+                            <input
+                                type="text"
+                                id="datepicker"
+                                name="selected_date"
+                                class="form-control"
+                                placeholder="Select Date"
+                            />
+                            <button type="submit" class="btn btn-primary">
+                                Filter
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <a
+                                href="{{ route('log.index') }}"
+                                type="button"
+                                id="resetDate"
+                                class="btn btn-secondary"
+                                >Reset</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--DATEPICKER FORM-->
 
         <!--TABLE-->
         <div class="table-responsive">
@@ -117,6 +167,14 @@
             </table>
         </div>
         <!--TABLE-->
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                flatpickr("#datepicker", {
+                    dateFormat: "Y-m-d",
+                });
+            });
+        </script>
 
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

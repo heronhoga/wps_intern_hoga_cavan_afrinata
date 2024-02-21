@@ -28,13 +28,13 @@ Route::group(['middleware'=>'guest'], function() {
 }); 
 
 Route::group(['middleware' => 'auth'], function() {
+    //HOME AND LOG APPROVAL
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     //LOGOUT
     Route::get('/logout', [GuestController::class, 'logout']);
-    //USERS
-    Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
 
     //USER MANAGEMENT
+    Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
     Route::get('/users/{id}/edit', [DashboardController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [DashboardController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [DashboardController::class, 'destroy'])->name('users.destroy');
@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     //SELF-LOG MANAGEMENT
     Route::get('/mylog', [LogController::class, 'index'])->name('log.index');
+    Route::get('/mylog/filter', [LogController::class, 'filter'])->name('filter.logs');
+
     Route::get('/mylog/create', [LogController::class, 'create'])->name('log.create');
     Route::post('/mylog', [LogController::class, 'store'])->name('log.store');
     Route::delete('/mylog/{id}', [LogController::class, 'destroy'])->name('log.destroy');
