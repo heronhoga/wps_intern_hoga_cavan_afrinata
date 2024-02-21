@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>X Office - Home</title>
+        <title>X Office - Users</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,9 +32,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
+                        @if($role === 'man-op' || $role === 'man-uang' || $role === 'staf')
                         <li class="nav-item">
                             <a class="nav-link" href="/mylog">My Log</a>
                         </li>
+                        @endif
                         @if($role === 'direktur')
                         <li class="nav-item">
                             <a class="nav-link active" href="/users"
@@ -53,9 +55,6 @@
         </nav>
 
         <!--NAVBAR HOME-->
-        <div class="d-flex justify-content-center my-4">
-            <button class="btn btn-success" type="button">Create User</button>
-        </div>
         <!--TABLE-->
         <div class="table-responsive">
             <table class="table">
@@ -74,7 +73,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role }}</td>
-                        <td>{{ $user->supervisor }}</td>
+                        <td>{{ $user->supervisor_name }}</td>
                         <td>
                             <a
                                 href="{{ route('users.edit', $user->id) }}"

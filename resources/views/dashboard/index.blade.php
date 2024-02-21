@@ -20,9 +20,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/home">Home</a>
                         </li>
+                        @if($role === 'man-op' || $role === 'man-uang' || $role === 'staf')
                         <li class="nav-item">
                             <a class="nav-link" href="/mylog">My Log</a>
                         </li>
+                        @endif
                         @if($role === 'direktur')
                         <li class="nav-item">
                             <a class="nav-link" href="/users"
