@@ -172,6 +172,17 @@
 
         @endif
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            let message = "{{ session('success') }}";
+            if (message) {
+                Swal.fire({
+                    title: "Success!",
+                    text: message,
+                    icon: "success",
+                });
+            }
+        </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 flatpickr("#datepicker", {

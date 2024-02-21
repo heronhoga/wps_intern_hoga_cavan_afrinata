@@ -31,8 +31,10 @@ class LogController extends Controller
     $email = session('email');
     $userRole = User::where('email', $email)->value('role');
     $userName = User::where('email', $email)->value('name');
+    $userId = User::where('email', $email)->value('id');
     $selectedDate = $request->input('selected_date', date('Y-m-d'));
-    $logs = Log::whereDate('created_at', $selectedDate)->get();
+    $logs = Log::where('user_id', $userId)
+    ->whereDate('created_at', $selectedDate)->get();
     return view('log.index', [
         'logs' => $logs,
         'role' => $userRole,
@@ -71,7 +73,7 @@ class LogController extends Controller
                 $newData->save();
     }
     
-        return redirect()->route('log.index');
+        return redirect()->route('log.index')->with('success', 'Log created successfully.');
     }
 
     //DELETE
